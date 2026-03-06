@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- TOP BAR -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <ImageButton android:id="@+id/btnBack"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="#FFFFFF" android:contentDescription="Назад" />
+
+        <View android:id="@+id/titleColorDot"
+            android:layout_width="16dp" android:layout_height="16dp"
+            android:background="#FFFFFF"
+            android:layout_marginStart="4dp" android:layout_marginEnd="2dp" />
+
+        <EditText android:id="@+id/etTitle"
+            android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Название заметки"
+            android:textColor="#FFFFFF" android:textColorHint="#AAAAAA"
+            android:textSize="17sp" android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:paddingStart="4dp" android:paddingEnd="8dp"
+            android:singleLine="true" android:imeOptions="actionDone" />
+
+        <ImageButton android:id="@+id/btnToggleMode"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="#FFFFFF" android:contentDescription="Режим рисования" />
+    </LinearLayout>
+
+    <!-- TEXT TOOLBAR -->
+    <LinearLayout android:id="@+id/toolbarText"
+        android:layout_width="match_parent" android:layout_height="48dp"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingStart="8dp" android:paddingEnd="8dp">
+
+        <Button android:id="@+id/btnHighlightType"
+            android:layout_width="wrap_content" android:layout_height="32dp"
+            android:text="Маркер" android:textSize="11sp"
+            android:paddingStart="10dp" android:paddingEnd="10dp" />
+
+        <View android:id="@+id/highlightColorIndicator"
+            android:layout_width="24dp" android:layout_height="24dp"
+            android:background="#FFFF00" android:layout_marginStart="6dp" />
+
+        <ImageButton android:id="@+id/btnHighlightColorPicker"
+            android:layout_width="34dp" android:layout_height="34dp"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Цвет маркера" />
+
+        <ImageButton android:id="@+id/btnApplyFormat"
+            android:layout_width="36dp" android:layout_height="36dp"
+            android:src="@android:drawable/checkbox_on_background"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="4dp" android:contentDescription="Применить" />
+
+        <ImageButton android:id="@+id/btnClearFormat"
+            android:layout_width="36dp" android:layout_height="36dp"
+            android:src="@android:drawable/ic_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="2dp" android:contentDescription="Убрать" />
+    </LinearLayout>
+
+    <!-- DRAW TOOLBAR -->
+    <LinearLayout android:id="@+id/toolbarDraw"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingStart="8dp" android:paddingEnd="8dp"
+        android:paddingTop="4dp" android:paddingBottom="4dp"
+        android:visibility="gone">
+
+        <View android:id="@+id/drawColorIndicator"
+            android:layout_width="26dp" android:layout_height="26dp"
+            android:background="#000000" />
+
+        <ImageButton android:id="@+id/btnColorPicker"
+            android:layout_width="36dp" android:layout_height="36dp"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Цвет кисти" />
+
+        <ImageButton android:id="@+id/btnEraser"
+            android:layout_width="36dp" android:layout_height="36dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:alpha="0.5" android:contentDescription="Ластик" />
+
+        <ImageButton android:id="@+id/btnUndo"
+            android:layout_width="36dp" android:layout_height="36dp"
+            android:src="@android:drawable/ic_media_rew"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Отменить" />
+
+        <ImageButton android:id="@+id/btnClearDraw"
+            android:layout_width="36dp" android:layout_height="36dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Очистить" />
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:paddingStart="6dp">
+            <SeekBar android:id="@+id/seekBarAlpha"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:max="100" android:progress="100" />
+            <SeekBar android:id="@+id/seekBarThickness"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:max="48" android:progress="6" android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--
+        CONTENT: единый ScrollView.
+        DrawingView и EditText имеют ОДИНАКОВУЮ фиксированную высоту 3000dp.
+        Оба живут в FrameLayout с этой же высотой.
+        Они скроллятся вместе — рисунок привязан к документу.
+    -->
+    <com.notepad.app.DrawingScrollView
+        android:id="@+id/mainScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="3000dp">
+
+            <com.notepad.app.DrawingView
+                android:id="@+id/drawingView"
+                android:layout_width="match_parent"
+                android:layout_height="3000dp" />
+
+            <EditText
+                android:id="@+id/etContent"
+                android:layout_width="match_parent"
+                android:layout_height="3000dp"
+                android:hint="Начните писать здесь..."
+                android:textSize="16sp"
+                android:background="@android:color/transparent"
+                android:padding="16dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine|textCapSentences"
+                android:scrollbars="none" />
+
+        </FrameLayout>
+    </com.notepad.app.DrawingScrollView>
+
+</LinearLayout>
